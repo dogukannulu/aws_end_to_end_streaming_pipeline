@@ -1,0 +1,3 @@
+unicodecsv
+rich_argparse
+boto3
