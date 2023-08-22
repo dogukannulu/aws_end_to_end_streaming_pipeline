@@ -79,7 +79,7 @@ def main():
         data.extend(page_data)
 
     for book in data:
-        book["availability"] = random.choice(["In stock", "Out of stock"])
+        book["availability"] = random.choice(["In stock", "Out of stock"]) # assigned randomly
 
     try:
         with open("books_data.json", "w") as json_file:
