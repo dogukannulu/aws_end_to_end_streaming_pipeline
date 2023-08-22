@@ -40,6 +40,9 @@ def define_arguments():
     return args
 
 def send_json_to_kinesis(stream_name, interval, max_records, json_url):
+    """
+    Streams the JSON data into Kinesis data streams
+    """
     kinesis_streamer = KinesisStreamer()
 
     response = requests.get(json_url)
