@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 class BookScraper:
     def __init__(self, base_url):
         self.base_url = base_url
+
     
     def extract_details(self, detail_url):
         try:
@@ -29,6 +30,7 @@ class BookScraper:
         except requests.RequestException as e:
             logger.error(f"Error extracting details from {detail_url}: {e}")
             return "Unknown"
+
     
     def scrape_books(self, url):
         try:
@@ -63,6 +65,7 @@ class BookScraper:
             logger.error(f"Error scraping books from {url}: {e}")
             return []
 
+
 def main():
     base_url = "http://books.toscrape.com"
     total_pages = 10
@@ -84,6 +87,7 @@ def main():
         logger.info(f"Scraped and saved {len(data)} book entries.")
     except Exception as e:
         logger.error(f"Error saving data to JSON: {e}")
+
 
 if __name__ == "__main__":
     main()
