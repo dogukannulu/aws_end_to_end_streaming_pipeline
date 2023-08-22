@@ -17,6 +17,6 @@ spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
-glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='glue-etl-from-csv-to-parquet', table_name='ufo_reports_source_csv')
+glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='glue-etl-from-parquet-to-redshift', table_name='parquet_data')
 
 df_spark = glue_dynamic_frame_initial.toDF()
