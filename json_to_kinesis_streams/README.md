@@ -19,7 +19,7 @@ cd /project
 
 2. First, we have to run this command to bring the `setup.sh` into the EC2 instance (We have to be located in `/`).
 ```
-sudo curl -O https://raw.githubusercontent.com/dogukannulu/aws_end_to_end_streaming_pipeline/main/json_to_kinesis_streams/setup.sh
+sudo curl -O https://raw.githubusercontent.com/dogukannulu/send_data_to_aws_services/main/json_to_kinesis_streams/setup.sh
 ```
 
 
@@ -30,7 +30,7 @@ sudo chmod +x setup.sh
 
 4. We should download the zip file that includes `json_to_kinesis_streams.py` and `requirements.txt`
 ```
-sudo wget https://github.com/dogukannulu/aws_end_to_end_streaming_pipeline/raw/main/json_to_kinesis_streams/json_to_kinesis_streams.zip
+sudo wget https://github.com/dogukannulu/send_data_to_aws_services/raw/main/json_to_kinesis_streams/json_to_kinesis_streams.zip
 ```
 
 5. After modifications (if necessary), we can execute the shell script.
