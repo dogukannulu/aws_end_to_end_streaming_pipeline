@@ -6,7 +6,6 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 from awsglue.dynamicframe import DynamicFrame
 from pyspark.sql import functions as F
-from pyspark.sql.window import Window
 
 # num_reviews column mapping
 num_review_mapping = {
