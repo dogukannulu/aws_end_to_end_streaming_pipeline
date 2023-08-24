@@ -8,7 +8,11 @@ from awsglue.dynamicframe import DynamicFrame
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
-## @params: [JOB_NAME]
+# num_reviews column mapping
+num_review_mapping = {
+    "One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5
+}
+
 args = getResolvedOptions(sys.argv, ['JOB_NAME'])
 
 sc = SparkContext()
@@ -17,23 +21,23 @@ spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
-glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='books-lambda-parquet-dogukan-ulu', table_name='books_parquet')
 
-df_spark = glue_dynamic_frame_initial.toDF()
+def create_initial_df():
+    glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='books-lambda-parquet-dogukan-ulu', table_name='books_parquet')
+    df_spark = glue_dynamic_frame_initial.toDF()
 
-# Transformation for the price column
-df_spark = df_spark.withColumn("price", F.regexp_replace("price", "[^0-9.]", "").cast("float"))
+    return df_spark
 
-# Transformation for the num_reviews column
-num_review_mapping = {
-    "One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5,
-    "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10
-}
 
-df_spark = df_spark.drop("upc")
+def modify_and_create_final_spark_df(df):
+    df = df.withColumn("price", F.regexp_replace("price", "[^0-9.]", "").cast("float"))
+    df = df.drop("upc")
+    df_final = df.withColumn("num_reviews", F.when(df_spark["num_reviews"].isin(num_review_mapping.keys()), num_review_mapping[df_spark["num_reviews"]]).otherwise(df_spark["num_reviews"].cast("int")))
 
-df_final = df_spark.withColumn("num_reviews", when(df_spark["num_reviews"].isin(num_review_mapping.keys()), num_review_mapping[df_spark["num_reviews"]]).otherwise(df_spark["num_reviews"].cast("int")))
+    return df_final
 
+df_spark = create_initial_df()
+df_final = create_initial_df(df_spark)
 
 # From Spark dataframe to glue dynamic frame
 glue_dynamic_frame_final = DynamicFrame.fromDF(df_final, glueContext, "glue_etl")
