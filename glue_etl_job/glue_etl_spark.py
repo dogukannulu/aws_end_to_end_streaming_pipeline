@@ -17,7 +17,7 @@ spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
-glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='glue-etl-from-parquet-to-redshift', table_name='parquet_data')
+glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='books-lambda-parquet-dogukan-ulu', table_name='books_parquet')
 
 df_spark = glue_dynamic_frame_initial.toDF()
 
@@ -28,18 +28,25 @@ df_spark = glue_dynamic_frame_initial.toDF()
 ###############################
 
 
-jdbc_url = "jdbc:redshift://your-redshift-cluster-endpoint:5439/your-database"
-redshift_username = "your-username"
-redshift_password = "your-password"
-redshift_table = "target_table_name"
+# From Spark dataframe to glue dynamic frame
+glue_dynamic_frame_final = DynamicFrame.fromDF(df_final, glueContext, "glue_etl")
 
-filtered_df.write \
-    .format("com.databricks.spark.redshift") \
-    .option("url", jdbc_url) \
-    .option("dbtable", redshift_table) \
-    .option("user", redshift_username) \
-    .option("password", redshift_password) \
-    .mode("append") \
-    .save()
+# Write the data in the DynamicFrame to a location in Amazon S3 and a table for it in the AWS Glue Data Catalog
+s3output = glueContext.getSink(
+  path="s3://books-glue-etl-job-spark-parquet-dogukan-ulu/books_parquet",
+  connection_type="s3",
+  updateBehavior="UPDATE_IN_DATABASE",
+  partitionKeys=[],
+  compression="snappy",
+  enableUpdateCatalog=True,
+  transformation_ctx="s3output",
+)
+
+s3output.setCatalogInfo(
+  catalogDatabase="books-glue-etl-job-spark-parquet-dogukan-ulu", catalogTableName="books_parquet"
+)
+
+s3output.setFormat("glueparquet")
+s3output.writeFrame(glue_dynamic_frame_final)
 
 job.commit()
