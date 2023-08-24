@@ -21,11 +21,18 @@ glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(datab
 
 df_spark = glue_dynamic_frame_initial.toDF()
 
-##############################
-# Insert all the transformations here
-# transformed_data
+# Transformation for the price column
+df_spark = df_spark.withColumn("price", F.regexp_replace("price", "[^0-9.]", "").cast("float"))
 
-###############################
+# Transformation for the num_reviews column
+num_review_mapping = {
+    "One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5,
+    "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10
+}
+
+df_spark = df_spark.drop("upc")
+
+df_final = df_spark.withColumn("num_reviews", when(df_spark["num_reviews"].isin(num_review_mapping.keys()), num_review_mapping[df_spark["num_reviews"]]).otherwise(df_spark["num_reviews"].cast("int")))
 
 
 # From Spark dataframe to glue dynamic frame
