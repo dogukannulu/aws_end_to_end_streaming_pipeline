@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+
 class KinesisStreamer:
     def __init__(self, region_name='eu-central-1'):
         self.kinesis_client = boto3.client('kinesis', region_name=region_name)
@@ -26,6 +27,7 @@ class KinesisStreamer:
             logger.error(f"Kinesis stream '{stream_name}' not found. Please ensure the stream exists.")
             sys.exit(1)
 
+
 def define_arguments():
     """
     Defines the command-line arguments 
@@ -38,6 +40,7 @@ def define_arguments():
     args = parser.parse_args()
 
     return args
+
 
 def send_json_to_kinesis(stream_name, interval, max_records, json_url):
     """
@@ -65,6 +68,7 @@ def send_json_to_kinesis(stream_name, interval, max_records, json_url):
     except KeyboardInterrupt:
         logger.info("Received KeyboardInterrupt signal. Stopping the JSON-to-Kinesis streaming process.")
         sys.exit(0)  # Gracefully exit the script
+
 
 if __name__ == "__main__":
     args = define_arguments()
