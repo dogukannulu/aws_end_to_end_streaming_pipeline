@@ -47,7 +47,7 @@ class ParquetConverter:
 class S3Uploader:
     def __init__(self):
         self.s3 = boto3.client('s3')
-        self.target_s3_bucket = "lambda-books-parquet-dogukan-ulu"
+        self.target_s3_bucket = "aws-glue-books-parquet-dogukan-ulu"
         self.target_s3_key = "books_parquet/books.parquet"
 
     def upload(self, buffer):
