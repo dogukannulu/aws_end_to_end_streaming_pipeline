@@ -47,8 +47,8 @@ class ParquetConverter:
 class S3Uploader:
     def __init__(self):
         self.s3 = boto3.client('s3')
-        self.target_s3_bucket = "lambda-function-parquet-dogukan-ulu"
-        self.target_s3_key = "parquet_data/books.parquet"
+        self.target_s3_bucket = "books-lambda-parquet-dogukan-ulu"
+        self.target_s3_key = "books_parquet/books.parquet"
 
     def upload(self, buffer):
         """
