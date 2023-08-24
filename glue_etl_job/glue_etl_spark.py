@@ -22,7 +22,7 @@ job.init(args['JOB_NAME'], args)
 
 
 def create_initial_df():
-    glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='books-lambda-parquet-dogukan-ulu', table_name='books_parquet')
+    glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='lambda-books-parquet-dogukan-ulu', table_name='books_parquet')
     df_spark = glue_dynamic_frame_initial.toDF()
 
     return df_spark
