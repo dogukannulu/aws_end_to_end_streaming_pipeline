@@ -1,5 +1,5 @@
-# python3.8 lambda base image
-FROM public.ecr.aws/lambda/python:3.9
+# python3.11 lambda base image
+FROM public.ecr.aws/lambda/python:3.11
 
 # copy requirements.txt to container
 COPY requirements.txt ./
