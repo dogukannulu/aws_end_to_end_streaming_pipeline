@@ -22,7 +22,7 @@ job.init(args['JOB_NAME'], args)
 
 
 def create_initial_df():
-    glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='lambda-books-parquet-dogukan-ulu', table_name='books_parquet')
+    glue_dynamic_frame_initial = glueContext.create_dynamic_frame.from_catalog(database='glue-etl-books-parquet-dogukan-ulu', table_name='dirty_books_parquet')
     df_spark = glue_dynamic_frame_initial.toDF()
 
     return df_spark
@@ -43,7 +43,7 @@ glue_dynamic_frame_final = DynamicFrame.fromDF(df_final, glueContext, "glue_etl"
 
 # Write the data in the DynamicFrame to a location in Amazon S3 and a table for it in the AWS Glue Data Catalog
 s3output = glueContext.getSink(
-  path="s3://books-glue-etl-job-spark-parquet-dogukan-ulu/books_parquet",
+  path="s3://aws-glue-clean-books-parquet-dogukan-ulu/clean_books_parquet",
   connection_type="s3",
   updateBehavior="UPDATE_IN_DATABASE",
   partitionKeys=[],
@@ -53,7 +53,7 @@ s3output = glueContext.getSink(
 )
 
 s3output.setCatalogInfo(
-  catalogDatabase="books-glue-etl-job-spark-parquet-dogukan-ulu", catalogTableName="books_parquet"
+  catalogDatabase="glue-etl-books-parquet-dogukan-ulu", catalogTableName="clean_books_parquet"
 )
 
 s3output.setFormat("glueparquet")
