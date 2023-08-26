@@ -22,6 +22,7 @@ cd /project
 sudo curl -O https://raw.githubusercontent.com/dogukannulu/send_data_to_aws_services/main/json_to_kinesis_streams/setup.sh
 ```
 
+
 3. The shell script runs the Python script with predefined command line arguments. You can modify lines 51-55 in `setup.sh` according to your use case with `sudo vi setup.sh`. To execute the shell script we should run the following command.
 ```
 sudo chmod +x setup.sh
