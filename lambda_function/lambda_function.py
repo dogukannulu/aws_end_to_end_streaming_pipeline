@@ -48,7 +48,7 @@ class S3Uploader:
     def __init__(self):
         self.s3 = boto3.client('s3')
         self.target_s3_bucket = "aws-glue-dirty-books-parquet-dogukan-ulu"
-        self.target_s3_key = "books_parquet/"
+        self.target_s3_key = "books_parquet/books.parquet"
 
     def upload(self, buffer):
         """
@@ -69,6 +69,7 @@ def lambda_handler(event, context):
         df = s3_loader.load_df_from_s3(bucket_name=bucket, key=key)
         
         if df is None:
+            print("Object cannot be retrieved correctly from S3")
             return {
                 'statusCode': 500,
                 'body': json.dumps('Error loading data from S3')
@@ -76,9 +77,13 @@ def lambda_handler(event, context):
         
         parquet_converter = ParquetConverter()
         parquet_buffer = parquet_converter.to_parquet(df)
+
+        print("JSON has been converted into parquet")
         
         s3_uploader = S3Uploader()
         s3_uploader.upload(parquet_buffer)
+
+        print("Parquet file uploaded into S3 successfully")
 
         return {
             'statusCode': 200,
