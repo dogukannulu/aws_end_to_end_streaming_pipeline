@@ -32,8 +32,10 @@ def modify_and_create_final_spark_df(df):
     df = df.withColumn("price", F.regexp_replace("price", "[^0-9.]", "").cast("float"))
     df = df.drop("upc")
     df_final = df.withColumn("num_reviews", F.when(df_spark["num_reviews"].isin(num_review_mapping.keys()), num_review_mapping[df_spark["num_reviews"]]).otherwise(df_spark["num_reviews"].cast("int")))
-
+    df = df.withColumn("is_available", when(df["availability"] == "In stock", 1).otherwise(0))
+    df = df.drop("availability")
     return df_final
+
 
 df_spark = create_initial_df()
 df_final = create_initial_df(df_spark)
