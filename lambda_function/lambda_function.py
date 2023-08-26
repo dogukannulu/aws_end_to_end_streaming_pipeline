@@ -26,8 +26,8 @@ class S3Loader:
             logger.error(f"S3 object cannot be retrieved: {e}")
             return None
         
-        json_data = get_response['Body'].read().decode('utf-8')
-        data = json.loads(json_data)
+        json_lines = get_response['Body'].read().decode('utf-8').splitlines()
+        data = [json.loads(line) for line in json_lines]
         df = pd.DataFrame(data)
 
         return df
