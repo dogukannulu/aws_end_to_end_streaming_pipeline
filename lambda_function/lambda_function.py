@@ -3,6 +3,7 @@ import json
 import pandas as pd
 import boto3
 import logging
+from botocore.exceptions import ClientError
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
