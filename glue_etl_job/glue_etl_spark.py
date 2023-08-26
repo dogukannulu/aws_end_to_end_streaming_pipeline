@@ -29,10 +29,20 @@ def create_initial_df():
 
 
 def modify_and_create_final_spark_df(df):
-    df = df.withColumn("price", F.regexp_replace("price", "[^0-9.]", "").cast("float"))
+    # price modifications
+    df = df.withColumn("price", regexp_replace("price", "£", ""))
+    df = df.withColumn("price", regexp_replace("price", "[^\d.]", ""))
+    df = df.withColumn("price", df["price"].cast("float"))
+
+    # Drop upc
     df = df.drop("upc")
+
+    # num_reviews modifications
     df_final = df.withColumn("num_reviews", F.when(df_spark["num_reviews"].isin(num_review_mapping.keys()), num_review_mapping[df_spark["num_reviews"]]).otherwise(df_spark["num_reviews"].cast("int")))
+   
+    # availability modifications
     df = df.withColumn("availability", when(df["availability"] == "In stock", 1).otherwise(0))
+
     return df_final
 
 
