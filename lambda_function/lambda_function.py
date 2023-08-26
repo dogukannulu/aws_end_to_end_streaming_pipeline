@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class GlobalVariables:
     target_s3_bucket = "lambda-function-parquet-dogukan-ulu"
-    target_s3_key = "parquet_data/books.parquet"
+    target_s3_key = "dirty_books_parquet/books.parquet"
 
 
 def load_df_from_s3(bucket_name, key):
