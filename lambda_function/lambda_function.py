@@ -2,12 +2,7 @@ import io
 import json
 import pandas as pd
 import boto3
-import logging
 from botocore.exceptions import ClientError
-
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 
 class S3Loader:
@@ -19,12 +14,12 @@ class S3Loader:
         """
         Read JSON from an S3 bucket & load into a pandas dataframe
         """
-        logger.info("Starting S3 object retrieval process...")
+        print("Starting S3 object retrieval process...")
         try:
             get_response = self.s3.get_object(Bucket=bucket_name, Key=key)
-            logger.info("Object retrieved from S3 bucket successfully")
+            print("Object retrieved from S3 bucket successfully")
         except ClientError as e:
-            logger.error(f"S3 object cannot be retrieved: {e}")
+            print(f"S3 object cannot be retrieved: {e}")
             return None
         
         json_data = get_response['Body'].read().decode('utf-8')
@@ -67,8 +62,8 @@ def lambda_handler(event, context):
         bucket = event['Records'][0]['s3']['bucket']['name']
         key = event['Records'][0]['s3']['object']['key']
 
-        logger.info(f"S3 bucket is obtained from the event: {bucket}")
-        logger.info(f"Object key is obtained from the event: {key}")
+        print(f"S3 bucket is obtained from the event: {bucket}")
+        print(f"Object key is obtained from the event: {key}")
 
         s3_loader = S3Loader()
         df = s3_loader.load_df_from_s3(bucket_name=bucket, key=key)
@@ -91,7 +86,7 @@ def lambda_handler(event, context):
         }
         
     except Exception as e:
-        logger.error(f"An error occurred: {e}")
+        print(f"An error occurred: {e}")
         return {
             'statusCode': 500,
             'body': json.dumps('An error occurred during processing')
