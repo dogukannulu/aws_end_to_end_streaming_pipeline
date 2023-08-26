@@ -41,7 +41,7 @@ install_python_libraries() {
 execute_python_script() {
     local json_to_kinesis_streams_script="json_to_kinesis_streams.py"
     local stream_name="json-to-kinesis-streams-dogukan-ulu"
-    local interval=5
+    local interval=1
     local max_records=120
     local json_url="https://raw.githubusercontent.com/dogukannulu/send_data_to_aws_services/main/json_to_kinesis_streams/books_data.json"
     
