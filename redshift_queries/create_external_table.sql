@@ -5,4 +5,4 @@ CREATE EXTERNAL TABLE redshift_parquet.clean_books_parquet(
     availability INTEGER
 )
 stored as parquet
-LOCATION 's3://aws-glue-clean-books-parquet-dogukan-ulu/clean_books_parquet/';
+location 's3://aws-glue-clean-books-parquet-dogukan-ulu/clean_books_parquet/';
