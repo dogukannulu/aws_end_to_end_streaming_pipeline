@@ -42,7 +42,7 @@ execute_python_script() {
     local json_to_kinesis_streams_script="json_to_kinesis_streams.py"
     local stream_name="json-to-kinesis-streams-dogukan-ulu"
     local interval=1
-    local max_records=180
+    local max_records=120
     local json_url="https://raw.githubusercontent.com/dogukannulu/aws_end_to_end_streaming_pipeline/main/json_to_kinesis_streams/books_data.json"
     
     log_message "Executing the Python script"
