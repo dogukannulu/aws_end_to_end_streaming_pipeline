@@ -6,7 +6,7 @@ WITH all_price_categories AS (
             WHEN price <= 25 AND price < 40 THEN 'Middle'
             ELSE 'Expensive'
         END as price_category
-    FROM 'glue-etl-books-parquet-dogukan-ulu.clean_books_parquet'
+    FROM `glue-etl-books-parquet-dogukan-ulu.clean_books_parquet`
 )
 
 SELECT

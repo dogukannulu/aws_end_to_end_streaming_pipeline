@@ -6,7 +6,7 @@ WITH numbers AS (
             END
         ) AS number_of_available_books,
         COUNT(*) as total_number_of_books
-    FROM 'glue-etl-books-parquet-dogukan-ulu.clean_books_parquet'
+    FROM `glue-etl-books-parquet-dogukan-ulu.clean_books_parquet`
 )
 
 SELECT
