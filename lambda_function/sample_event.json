@@ -1,0 +1,28 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "eu-central-1",
+            "eventTime": "2023-08-02T12:34:56.789Z",
+            "eventName": "ObjectCreated:Put",
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "example-event-config-id",
+                "bucket": {
+                    "name": "kinesis-firehose-books-json-dogukan-ulu",
+                    "ownerIdentity": {
+                        "principalId": "EXAMPLE"
+                    },
+                    "arn": "arn:aws:s3:::csv-to-s3-project-dogukan-ulu"
+                },
+                "object": {
+                    "key": "json_data/sample_firehose_data",
+                    "size": 1024,
+                    "eTag": "example-object-etag",
+                    "sequencer": "example-sequencer"
+                }
+            }
+        }
+    ]
+}
