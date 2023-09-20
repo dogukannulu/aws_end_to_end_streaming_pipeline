@@ -47,7 +47,7 @@ class BookScraper:
                 rating_element = article.find("p", class_="star-rating")
                 num_reviews = rating_element.attrs["class"][1]
 
-                product_url = urljoin(self.base_url, article.h3.a["href"])
+                product_url = urljoin(f"{self.base_url}/catalogue/", article.h3.a["href"])
                 availability = self.extract_details(product_url)
 
                 upc = "f" + hex(hash(title))[2:] + hex(hash(price))[2:]
